@@ -16,9 +16,6 @@ Domain Path: /languages
 if ( ! defined( 'ABSPATH' ) )
 	exit;
 
-// Run activation hook
-register_activation_hook( __FILE__, array( 'WPSight_Ninja_Forms', 'activation' ) );
-
 /**
  * WPSight_Ninja_Forms class
  */
@@ -236,6 +233,9 @@ class WPSight_Ninja_Forms {
 	}
 	
 }
+
+// Run activation hook
+register_activation_hook( __FILE__, array( 'WPSight_Ninja_Forms', 'activation' ) );
 
 // Initialize plugin on wpsight_init
 add_action( 'wpsight_init', array( 'WPSight_Ninja_Forms', 'init' ) );
