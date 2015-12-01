@@ -10,6 +10,10 @@ Requires at least: 4.0
 Tested up to: 4.3.1
 Text Domain: wpcasa-ninja-forms
 Domain Path: /languages
+
+	Copyright: 2015 Simon Rimkus
+	License: GNU General Public License v2.0 or later
+	License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
 // Exit if accessed directly
@@ -218,7 +222,7 @@ class WPSight_Ninja_Forms {
 			'ninja_listing_form_id'		=> $form_id,
 			'ninja_listing_field_id'	=> $form_field_id,
 			'ninja_listing_form_css'	=> '1',
-			'ninja_listing_form_display'=> 'listing_after'
+			'ninja_listing_form_display'=> 'wpsight_listing_single_after'
 		);
 
 		foreach( $options as $option => $value ) {
