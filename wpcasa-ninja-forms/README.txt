@@ -24,7 +24,7 @@ WPCasa is a WordPress solution that provides an intuitive way to manage property
 
 = Automatic Installation =
 
-Automatic installation is the easiest way to install WPCasa Advanced Search. Log into your WordPress admin and go to _WP-Admin > Plugins > Add New_.
+Automatic installation is the easiest way to install WPCasa Ninja Forms. Log into your WordPress admin and go to _WP-Admin > Plugins > Add New_.
 
 Then type "WPCasa Ninja Forms" in the search field and click _Install Now_ once you've found the plugin.
 
@@ -34,9 +34,9 @@ If you prefer to install the plugin manually, you need to download it to your lo
 
 == Frequently Asked Questions ==
 
-= Will this plugin work without WPCasa?
+= Will this plugin work without WPCasa or Ninja Forms?
 
-No, this is an add-on plugin for the WPCasa real estate framework and will not work without the core plugin.
+No, this is an add-on plugin for the WPCasa real estate framework in combination with the Ninja Forms form builder and will not work without the corresponding core plugins.
 
 == Screenshots ==
 
