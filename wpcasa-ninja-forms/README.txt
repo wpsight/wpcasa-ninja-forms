@@ -12,9 +12,11 @@ Add support for Ninja Forms plugin to attach property details to the contact ema
 
 == Description ==
 
-WPCasa is a WordPress solution that provides an intuitive way to manage property listings and create first-class real estate websites.
+The WPCasa Ninja Forms add-on is a bridge plugin for the Ninja Forms form builder that can be used to display a contact form on single listing pages. The add-on makes sure that useful property information is attaced to the emails sent through the form. It also comes with a starter form that includes all the necessary fields to make your life easier.
 
 > Please notice that this plugin is an add-on for [WPCasa](https://wordpress.org/plugins/wpcasa/) and will NOT work without the core plugin.
+
+WPCasa is a WordPress solution that provides an intuitive way to manage property listings and create first-class real estate websites.
 
 * Website: [wpcasa.com](https://wpcasa.com)
 * Demo: [demo.wpcasa.com](http://demo.wpcasa.com)
@@ -41,9 +43,16 @@ No, this is an add-on plugin for the WPCasa real estate framework in combination
 == Screenshots ==
 
 1. Ninja Forms form on listing page
-2. Ninja Forms tab on settings page
+2. Email message with property details
+3. Add-on tab on WPCasa settings page
+4. Ninja Forms form editor
 
 == Changelog ==
+
+= 1.0.0 =
+* Initial release
+
+== Upgrade Notice ==
 
 = 1.0.0 =
 * Initial release
