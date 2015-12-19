@@ -3,16 +3,16 @@ Contributors: wpsight, simonrimkus
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ZRR56U2VTPZAQ
 Tags: real estate, realestate, ninja forms, ninjaforms, ninja, forms, contact, agent, listing, property, wpcasa
 Requires at least: 4.0
-Tested up to: 4.3.1
+Tested up to: 4.4
 Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Add support for Ninja Forms plugin to attach property details to the contact email sent from listing pages.
+Add support for Ninja Forms plugin to attach property details to the contact email sent from WPCasa listing pages.
 
 == Description ==
 
-The WPCasa Ninja Forms add-on is a bridge plugin for the Ninja Forms form builder that can be used to display a contact form on single listing pages. The add-on makes sure that useful property information is attaced to the emails sent through the form. It also comes with a starter form that includes all the necessary fields to make your life easier.
+The WPCasa Ninja Forms add-on is a bridge plugin for the Ninja Forms form builder that can be used to display a contact form on single listing pages in WPCasa. The add-on makes sure that useful property information is attaced to the emails sent through the form. It also comes with a starter form that includes all the necessary fields to make your life easier.
 
 > Please notice that this plugin is an add-on for [WPCasa](https://wordpress.org/plugins/wpcasa/) and will NOT work without the core plugin.
 
@@ -36,7 +36,7 @@ If you prefer to install the plugin manually, you need to download it to your lo
 
 == Frequently Asked Questions ==
 
-= Will this plugin work without WPCasa or Ninja Forms?
+= Will this plugin work without WPCasa or Ninja Forms? =
 
 No, this is an add-on plugin for the WPCasa real estate framework in combination with the Ninja Forms form builder and will not work without the corresponding core plugins.
 
