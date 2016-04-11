@@ -1,7 +1,7 @@
 {
   "name": "wpcasa-ninja-forms",
-  "version": "1.0.0",
-  "description": "Add support for Ninja Forms plugin to attach property details to the contact email sent from listing pages.",
+  "version": "1.0.1",
+  "description": "Add support for Ninja Forms plugin (v2.9) to attach property details to the contact email sent from listing pages.",
   "main": "Gruntfile.js",
   "repository": {
     "type": "git",
