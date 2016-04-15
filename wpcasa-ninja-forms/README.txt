@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: real estate, realestate, ninja forms, ninjaforms, ninja, forms, contact, agent, listing, property, wpcasa
 Requires at least: 4.0
 Tested up to: 4.5
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,9 @@ Currently not. In order to use this plugin with WPCasa please use the Ninja Form
 4. Ninja Forms form editor
 
 == Changelog ==
+
+= 1.0.2 =
+* Do not initiate plugin when Ninja Forms version is bigger than 2.9
 
 = 1.0.1 =
 * Fix error when Ninja Forms core plugin is not active
