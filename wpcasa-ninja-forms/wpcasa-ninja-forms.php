@@ -3,7 +3,7 @@
 Plugin Name: WPCasa Ninja Forms
 Plugin URI: https://wpcasa.com/downloads/wpcasa-ninja-forms
 Description: Add support for Ninja Forms plugin (v2.9) to attach property details to the contact email sent from WPCasa listing pages.
-Version: 1.0.1
+Version: 1.0.2
 Author: WPSight
 Author URI: http://wpsight.com
 Requires at least: 4.0
@@ -40,7 +40,7 @@ class WPSight_Ninja_Forms {
 
 		define( 'WPSIGHT_NINJA_FORMS_NAME', 'WPCasa Ninja Forms' );
 		define( 'WPSIGHT_NINJA_FORMS_DOMAIN', 'wpcasa-ninja-forms' );
-		define( 'WPSIGHT_NINJA_FORMS_VERSION', '1.0.1' );
+		define( 'WPSIGHT_NINJA_FORMS_VERSION', '1.0.2' );
 		define( 'WPSIGHT_NINJA_FORMS_PLUGIN_DIR', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 		define( 'WPSIGHT_NINJA_FORMS_PLUGIN_URL', untrailingslashit( plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) ) );
 
@@ -246,11 +246,11 @@ class WPSight_Ninja_Forms {
  */
 include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
-if( is_plugin_active( 'ninja-forms/ninja-forms.php' ) ) {
+if( is_plugin_active( 'ninja-forms/ninja-forms.php' ) && version_compare( get_option( 'ninja_forms_version' ), '3.0', '<' ) ) {
 
 	// Run activation hook
 	register_activation_hook( __FILE__, array( 'WPSight_Ninja_Forms', 'activation' ) );
-	
+		
 	// Initialize plugin on wpsight_init
 	add_action( 'wpsight_init', array( 'WPSight_Ninja_Forms', 'init' ) );
 
