@@ -1,21 +1,15 @@
-name: Deploy to WordPress.org
+name: 'WordPress Plugin Deploy'
+description: 'Deploy to the WordPress Plugin Repository'
+author: '10up'
 on:
+  # Trigger the workflow on push or pull request,
+  # but only for the master branch
   push:
     branches:
       - master
-jobs:
-  tag:
-    name: New tag
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - name: Build
-        run: |
-          npm install
-          npm audit fix
-      - name: WordPress Plugin Deploy
-        uses: 10up/action-wordpress-plugin-deploy@master
-        env:
-          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
-          SLUG: wpcasa-ninja-forms
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+branding:
+  icon: 'upload-cloud'
+  color: 'blue'
