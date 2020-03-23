@@ -3,11 +3,11 @@
 Plugin Name: WPCasa Ninja Forms
 Plugin URI: https://wpcasa.com/downloads/wpcasa-ninja-forms
 Description: Add support for Ninja Forms plugin (v2.9) to attach property details to the contact email sent from WPCasa listing pages.
-Version: 1.0.2
+Version: 1.1
 Author: WPSight
 Author URI: http://wpsight.com
 Requires at least: 4.0
-Tested up to: 4.6
+Tested up to: 5.3.2
 Text Domain: wpcasa-ninja-forms
 Domain Path: /languages
 
