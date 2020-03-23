@@ -12,7 +12,7 @@ jobs:
       - name: Build
         run: |
           npm install
-          npm run build
+          npm audit fix
       - name: WordPress Plugin Deploy
         uses: 10up/action-wordpress-plugin-deploy@master
         env:
