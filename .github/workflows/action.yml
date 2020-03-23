@@ -1,6 +1,12 @@
 name: 'WordPress Plugin Deploy'
 description: 'Deploy to the WordPress Plugin Repository'
 author: '10up'
+on:
+  # Trigger the workflow on push or pull request,
+  # but only for the master branch
+  push:
+    branches:
+      - master
 runs:
   using: 'docker'
   image: 'Dockerfile'

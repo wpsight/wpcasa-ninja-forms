@@ -40,7 +40,7 @@ class WPSight_Ninja_Forms {
 
 		define( 'WPSIGHT_NINJA_FORMS_NAME', 'WPCasa Ninja Forms' );
 		define( 'WPSIGHT_NINJA_FORMS_DOMAIN', 'wpcasa-ninja-forms' );
-		define( 'WPSIGHT_NINJA_FORMS_VERSION', '1.0.2' );
+		define( 'WPSIGHT_NINJA_FORMS_VERSION', '1.1' );
 		define( 'WPSIGHT_NINJA_FORMS_PLUGIN_DIR', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 		define( 'WPSIGHT_NINJA_FORMS_PLUGIN_URL', untrailingslashit( plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) ) );
 
