@@ -1,6 +1,4 @@
 name: 'WordPress Plugin Deploy'
-description: 'Deploy to the WordPress Plugin Repository'
-author: '10up'
 on:
   push:
     branches:
