@@ -1,16 +1,21 @@
-name: Plugin asset/readme update
+name: Deploy to WordPress.org
 on:
   push:
     branches:
       - master
 jobs:
-  master:
-    name: Push to master
+  tag:
+    name: New tag
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: WordPress.org plugin asset/readme update
-        uses: 10up/action-wordpress-plugin-asset-update@master
+      - name: Build
+        run: |
+          npm install
+          npm run build
+      - name: WordPress Plugin Deploy
+        uses: 10up/action-wordpress-plugin-deploy@master
         env:
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SLUG: wpcasa-ninja-forms
