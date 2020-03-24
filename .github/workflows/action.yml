@@ -1,9 +1,13 @@
 name: Deploy to WordPress.org
 on:
-  [push, pull_request]
+  push:
+    branches:
+      - master
+    tags:
+      - v1.*
 jobs:
   tag:
-    name: v1.1
+    name: New tag
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
