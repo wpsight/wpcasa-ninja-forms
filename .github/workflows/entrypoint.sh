@@ -1,9 +1,7 @@
 #!/bin/bash
 
-# Note that this does not use pipefail
-# because if the grep later doesn't match any deleted files,
-# which is likely the majority case,
-# it does not exit with a 0, and I only care about the final exit.
+# Note that this does not use pipefail because if the grep later
+# doesn't match I want to be able to show an error first
 set -eo
 
 # Ensure SVN username and password are set
@@ -26,28 +24,21 @@ if [[ -z "$SLUG" ]]; then
 fi
 echo "ℹ︎ SLUG is $SLUG"
 
-# Does it even make sense for VERSION to be editable in a workflow definition?
-if [[ -z "$VERSION" ]]; then
-	VERSION="${GITHUB_REF#refs/tags/}"
-	VERSION="${VERSION#v}"
-fi
-echo "ℹ︎ VERSION is $VERSION"
-
 if [[ -z "$ASSETS_DIR" ]]; then
 	ASSETS_DIR=".wordpress-org"
 fi
 echo "ℹ︎ ASSETS_DIR is $ASSETS_DIR"
 
+if [[ -z "$README_NAME" ]]; then
+	README_NAME="readme.txt"
+fi
+echo "ℹ︎ README_NAME is $README_NAME"
+
 SVN_URL="https://plugins.svn.wordpress.org/${SLUG}/"
 SVN_DIR="/github/svn-${SLUG}"
 
-EXCLUDE_FROM_GITIGNORE=""
-if [[ -e "$GITHUB_WORKSPACE/.gitignore" ]];
-  EXCLUDE_FROM_GITIGNORE=" --exclude-from=$GITHUB_WORKSPACE/.gitignore "
-fi
-
 # Checkout just trunk and assets for efficiency
-# Tagging will be handled on the SVN level
+# Stable tag will come later, if applicable
 echo "➤ Checking out .org repository..."
 svn checkout --depth immediates "$SVN_URL" "$SVN_DIR"
 cd "$SVN_DIR"
@@ -57,9 +48,13 @@ svn update --set-depth infinity trunk
 echo "➤ Copying files..."
 if [[ -e "$GITHUB_WORKSPACE/.distignore" ]]; then
 	echo "ℹ︎ Using .distignore"
+
+	# Use $TMP_DIR as the source of truth
+	TMP_DIR=$GITHUB_WORKSPACE
+
 	# Copy from current branch to /trunk, excluding dotorg assets
 	# The --delete flag will delete anything in destination that no longer exists in source
-	rsync -rc $EXCLUDE_FROM_GITIGNORE --exclude-from="$GITHUB_WORKSPACE/.distignore" "$GITHUB_WORKSPACE/" trunk/ --delete
+	rsync -rc --exclude-from="$GITHUB_WORKSPACE/.distignore" "$GITHUB_WORKSPACE/" trunk/ --delete --delete-excluded
 else
 	echo "ℹ︎ Using .gitattributes"
 
@@ -94,33 +89,60 @@ else
 
 	# Copy from clean copy to /trunk, excluding dotorg assets
 	# The --delete flag will delete anything in destination that no longer exists in source
-	rsync -rc $EXCLUDE_FROM_GITIGNORE "$TMP_DIR/" trunk/ --delete
+	rsync -rc "$TMP_DIR/" trunk/ --delete --delete-excluded
 fi
 
 # Copy dotorg assets to /assets
-if [[ -d "$GITHUB_WORKSPACE/$ASSETS_DIR/" ]]; then
-	rsync -rc "$GITHUB_WORKSPACE/$ASSETS_DIR/" assets/ --delete
+rsync -rc "$GITHUB_WORKSPACE/$ASSETS_DIR/" assets/ --delete --delete-excluded
+
+echo "➤ Preparing files..."
+
+svn status
+
+if [[ -z $(svn stat) ]]; then
+	echo "🛑 Nothing to deploy!"
+	exit 0
+# Check if there is more than just the readme.txt modified in trunk
+# The leading whitespace in the pattern is important
+# so it doesn't match potential readme.txt in subdirectories!
+elif svn stat trunk | grep -qvi " trunk/$README_NAME$"; then
+	echo "🛑 Other files have been modified; changes not deployed"
+	exit 1
+fi
+
+# Readme also has to be updated in the .org tag
+echo "➤ Preparing stable tag..."
+STABLE_TAG=$(grep -m 1 "^Stable tag:" "$TMP_DIR/$README_NAME" | tr -d '\r\n' | awk -F ' ' '{print $NF}')
+
+if [[ -z "$STABLE_TAG" ]]; then
+    echo "ℹ︎ Could not get stable tag from $README_NAME";
+	HAS_STABLE=1
 else
-	echo "ℹ︎ No assets directory found; skipping asset copy"
+	echo "ℹ︎ STABLE_TAG is $STABLE_TAG"
+
+	if svn info "^/$SLUG/tags/$STABLE_TAG" > /dev/null 2>&1; then
+		svn update --set-depth infinity "tags/$STABLE_TAG"
+
+		# Not doing the copying in SVN for the sake of easy history
+		rsync -c "$TMP_DIR/$README_NAME" "tags/$STABLE_TAG/"
+	else
+		echo "ℹ︎ Tag $STABLE_TAG not found"
+	fi
 fi
 
 # Add everything and commit to SVN
 # The force flag ensures we recurse into subdirectories even if they are already added
 # Suppress stdout in favor of svn status later for readability
-echo "➤ Preparing files..."
 svn add . --force > /dev/null
 
 # SVN delete all deleted files
 # Also suppress stdout here
 svn status | grep '^\!' | sed 's/! *//' | xargs -I% svn rm %@ > /dev/null
 
-# Copy tag locally to make this a single commit
-echo "➤ Copying tag..."
-svn cp "trunk" "tags/$VERSION"
-
+# Now show full SVN status
 svn status
 
 echo "➤ Committing files..."
-svn commit -m "Update to version $VERSION from GitHub" --no-auth-cache --non-interactive  --username "$SVN_USERNAME" --password "$SVN_PASSWORD"
+svn commit -m "Updating readme/assets from GitHub" --no-auth-cache --non-interactive  --username "$SVN_USERNAME" --password "$SVN_PASSWORD"
 
 echo "✓ Plugin deployed!"
