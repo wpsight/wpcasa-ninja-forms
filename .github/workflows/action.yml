@@ -6,12 +6,12 @@ jobs:
     name: New tag
     runs-on: ubuntu-latest
     steps:
+       - uses: MilesChou/composer-action@master
+            with:
+              args: install
       - uses: actions/checkout@master
       - name: WordPress Plugin Deploy
         uses: 10up/action-wordpress-plugin-deploy@master
-        - uses: MilesChou/composer-action@master
-            with:
-              args: install
         env:
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
