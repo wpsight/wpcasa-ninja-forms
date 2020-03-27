@@ -8,8 +8,8 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - uses: php-actions/composer@v1
-          with:
-            command: composer install --prefer-dist
+        with:
+          command: composer install --prefer-dist
       - name: WordPress Plugin Deploy
         uses: 10up/action-wordpress-plugin-deploy@master
         env:
