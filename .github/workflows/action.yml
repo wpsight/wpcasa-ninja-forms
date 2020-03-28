@@ -1,21 +1,11 @@
-name: Deploy to WordPress.org
-on:
-  [push, pull_request]
+on: push
+name: CI
 jobs:
-  build:
+  composer:
     runs-on: ubuntu-latest
     steps:
-    - uses: php-actions/composer@v1
-      with:
-        command: install --prefer-dist
-  tag:
-    name: New tag
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - name: WordPress Plugin Deploy
-        uses: 10up/action-wordpress-plugin-deploy@master
-        env:
-          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
-          SLUG: wpcasa-ninja-forms
+      - uses: actions/checkout@v1
+      # For YAML Actions, use v2 or later
+      - uses: pxgamer/composer-action@master
+        with:
+          command: install --optimize-autoloader --prefer-dist
