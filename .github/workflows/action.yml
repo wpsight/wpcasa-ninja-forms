@@ -1,6 +1,8 @@
 name: Deploy to WordPress.org
 on:
-  push
+  push:
+    tags:
+      - 'v*.*.*'
 jobs:
   build:
     name: deploy
