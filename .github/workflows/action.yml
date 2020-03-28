@@ -6,9 +6,8 @@ jobs:
     name: New tag
     runs-on: ubuntu-latest
     steps:
-      - uses: pxgamer/composer-action@master
-        with:
-          command: install --optimize-autoloader --prefer-dist
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest --no-dev
 
       - uses: actions/checkout@master
 
