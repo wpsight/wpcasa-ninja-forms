@@ -17,7 +17,7 @@ jobs:
       - uses: actions/upload-artifact@v1
         with:
           name: vendor.zip
-          path:  wpcasa-ninja-forms/vendor.zip
+          path: vendor.zip
 
       - name: Release
         uses: softprops/action-gh-release@v1
