@@ -7,7 +7,7 @@ jobs:
     steps:
     - uses: php-actions/composer@v1
       with:
-        command: composer install --prefer-dist
+        command: install --prefer-dist
   tag:
     name: New tag
     runs-on: ubuntu-latest
