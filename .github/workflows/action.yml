@@ -2,10 +2,17 @@ name: Deploy to WordPress.org
 on:
   push
 jobs:
-  build:
-    runs-on: ubuntu-16.04
+  tag:
+    name: New tag
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest --no-dev
+      - uses: pxgamer/composer-action@master
+        with:
+          command: install --optimize-autoloader --prefer-dist
+      - uses: actions/checkout@master
+      - name: WordPress Plugin Deploy
+        uses: 10up/action-wordpress-plugin-deploy@master
+        env:
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SLUG: wpcasa-ninja-forms
