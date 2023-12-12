@@ -246,7 +246,7 @@ class WPSight_Ninja_Forms {
  */
 include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
-if( is_plugin_active( 'ninja-forms/ninja-forms.php' ) && version_compare( get_option( 'ninja_forms_version' ), '3.0', '<' ) ) {
+if( is_plugin_active( 'ninja-forms/ninja-forms.php' )  ) {
 
 	// Run activation hook
 	register_activation_hook( __FILE__, array( 'WPSight_Ninja_Forms', 'activation' ) );

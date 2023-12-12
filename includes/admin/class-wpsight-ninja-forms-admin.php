@@ -38,9 +38,11 @@ class WPSight_Ninja_Forms_Admin {
 		// Prepare forms option
 		$forms = array( '' => __( 'None', 'wpcasa-ninja-forms' ) );
 
-		foreach ( ninja_forms_get_all_forms() as $key => $form ) {
-			$id = $form['id'];
-			$forms[ $id ] = $form['name'];
+		$ninja_forms = Ninja_Forms()->form()->get_forms();
+
+		foreach ( $ninja_forms as $key => $form ) {
+			$id = $form->get_id();
+			$forms[ $id ] = $form->get_settings( 'title' );
 		}
 
 		$options_ninja = array(
