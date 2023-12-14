@@ -149,7 +149,7 @@ class WPSight_Ninja_Forms {
 	public function listing_form() {
 		
 		if( wpsight_get_option( 'ninja_listing_form_id' ) )
-			ninja_forms_display_form( absint( wpsight_get_option( 'ninja_listing_form_id' ) ) );
+			echo do_shortcode( '[ninja_form id=' . absint( wpsight_get_option( 'ninja_listing_form_id' ) ) . ']' );
 		
 	}
 	
@@ -209,7 +209,7 @@ class WPSight_Ninja_Forms {
 		
 		if( $form_id ) {
 			
-			foreach( Ninja_Forms()->form( absint( $form_id ) )->fields as $key => $field ) {				
+			foreach( Ninja_Forms()->form( absint( $form_id ) )->get_fields() as $key => $field ) {				
 				if( '_hidden' == $field['type'] && $field['data']['label'] == '_listing_agent' )
 					$form_field_id = $field['id'];
 			}
