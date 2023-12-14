@@ -203,7 +203,7 @@ class WPSight_Ninja_Forms {
 		$file = file_get_contents( untrailingslashit( plugin_dir_path( __FILE__ ) ) . '/wpcasa-ninja-forms-starter.nff' );
 		
 		// create new form
-		$form_id = ! wpsight_get_option( 'ninja_listing_form_id' ) && function_exists( 'ninja_forms_import_form' ) ? ninja_forms_import_form( $file ) : false;
+		$form_id = ! wpsight_get_option( 'ninja_listing_form_id' ) ? Ninja_Forms()->form()->import_form( $file ) : false;
 		
 		$form_field_id = false;
 		
