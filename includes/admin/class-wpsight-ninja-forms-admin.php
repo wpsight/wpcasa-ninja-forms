@@ -73,9 +73,6 @@ class WPSight_Ninja_Forms_Admin {
 		if( $form_id ) {
 			
 			$form_fields = array( '' => __( 'None', 'wpcasa-ninja-forms' ) );
-
-			$all_fields = Ninja_Forms()->form( absint( $form_id ) )->get_fields();
-			error_log(print_r($all_fields, true));
 			
 			foreach( Ninja_Forms()->form( absint( $form_id ) )->get_fields() as $key => $field ) {				
 				$form_field_id = $field->get_id();
