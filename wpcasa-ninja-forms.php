@@ -26,6 +26,11 @@ if ( ! defined( 'ABSPATH' ) )
 class WPSight_Ninja_Forms {
 
 	/**
+	 * Variable to contain WPSight_Ninja_Forms_Admin class
+	 */
+	public $admin;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct() {
@@ -210,8 +215,8 @@ class WPSight_Ninja_Forms {
 		if( $form_id ) {
 			
 			foreach( Ninja_Forms()->form( absint( $form_id ) )->get_fields() as $key => $field ) {				
-				if( '_hidden' == $field['type'] && $field['data']['label'] == '_listing_agent' )
-					$form_field_id = $field['id'];
+				if( '_hidden' == $field->get_type() && $field->get_label() == '_listing_agent' )
+					$form_field_id = $field->get_id();
 			}
 			
 		}
@@ -235,6 +240,10 @@ class WPSight_Ninja_Forms {
 		}
 
 	}
+
+	public function deactivation() {
+		wpsight_delete_option( 'ninja_listing_form_id' );
+	}
 	
 }
 
@@ -250,6 +259,9 @@ if( is_plugin_active( 'ninja-forms/ninja-forms.php' )  ) {
 
 	// Run activation hook
 	register_activation_hook( __FILE__, array( 'WPSight_Ninja_Forms', 'activation' ) );
+
+	// Run deactivation hook
+	register_deactivation_hook( __FILE__, array( 'WPSight_Ninja_Forms', 'deactivation' ) );
 		
 	// Initialize plugin on wpsight_init
 	add_action( 'wpsight_init', array( 'WPSight_Ninja_Forms', 'init' ) );
