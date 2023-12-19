@@ -1,20 +1,17 @@
 <?php
 /*
-Plugin Name: WPCasa Ninja Forms
-Plugin URI: https://wpcasa.com/downloads/wpcasa-ninja-forms
-Description: Add support for Ninja Forms plugin (v2.9) to attach property details to the contact email sent from WPCasa listing pages.
-Version: 1.1
-Author: WPSight
-Author URI: http://wpsight.com
-Requires at least: 4.0
-Tested up to: 5.3.2
-Text Domain: wpcasa-ninja-forms
-Domain Path: /languages
-
-	Copyright: 2015 Simon Rimkus
-	License: GNU General Public License v2.0 or later
-	License URI: http://www.gnu.org/licenses/gpl-2.0.html
-*/
+ * Plugin Name:       WPCasa Ninja Forms
+ * Plugin URI:        https://wpcasa.com/downloads/wpcasa-ninja-forms
+ * Description:       Add support for Ninja Forms plugin (v2.9) to attach property details to the contact email sent from WPCasa listing pages.
+ * Version:           2.0.0
+ * Requires at least: 4.0
+ * Tested up to:      6.4
+ * Author:            WPSight
+ * Author URI:        https://wpcasa.com
+ * License:           GPL v2 or later
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain:       wpcasa-ninja-forms
+ */
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) )
@@ -116,7 +113,7 @@ class WPSight_Ninja_Forms {
 		$suffix = SCRIPT_DEBUG ? '' : '.min';
 		
 		if( is_singular( wpsight_post_type() ) && wpsight_get_option( 'ninja_listing_form_css' ) )
-			wp_enqueue_style( 'wpsight-ninja-forms', WPSIGHT_NINJA_FORMS_PLUGIN_URL . '/assets/css/wpsight-ninja-forms' . $suffix . '.css' );
+			wp_enqueue_style( 'wpsight-ninja-forms', WPSIGHT_NINJA_FORMS_PLUGIN_URL . '/assets/css/wpsight-ninja-forms' . $suffix . '.css', '', WPSIGHT_NINJA_FORMS_VERSION );
 
 	}
 	
