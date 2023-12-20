@@ -242,7 +242,7 @@ class WPSight_Ninja_Forms {
 		if ( plugin_basename( __FILE__ ) == $plugin ) {
 			$_form_id	= wpsight_get_option( 'ninja_listing_form_id' );
 			$url = 'admin.php?page=ninja-forms&form_id=' . $_form_id;
-			exit( wp_redirect( $url ) );
+			exit( esc_url( wp_redirect( $url ) ) );
 		}
 	}
 
@@ -260,17 +260,44 @@ class WPSight_Ninja_Forms {
  */
 include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
-if( is_plugin_active( 'ninja-forms/ninja-forms.php' )  ) {
+if( is_plugin_active( 'ninja-forms/ninja-forms.php' ) ) {
 
-	// Run activation hook
-	register_activation_hook( __FILE__, array( 'WPSight_Ninja_Forms', 'activation' ) );
+	$ninja_form_plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/ninja-forms/ninja-forms.php' );
+	if ( isset( $ninja_form_plugin_data ) ) {
+		$ninja_form_version = $ninja_form_plugin_data['Version'];
 
-	add_action( 'activated_plugin', array( 'WPSight_Ninja_Forms', 'ninja_form_activation_redirect' ) );
+		if ( $ninja_form_version >= '3.0.34.1' ) {
 
-	// Run deactivation hook
-	register_deactivation_hook( __FILE__, array( 'WPSight_Ninja_Forms', 'deactivation' ) );
-		
-	// Initialize plugin on wpsight_init
-	add_action( 'wpsight_init', array( 'WPSight_Ninja_Forms', 'init' ) );
+			// Run activation hook
+			register_activation_hook( __FILE__, array( 'WPSight_Ninja_Forms', 'activation' ) );
 
+			add_action( 'activated_plugin', array( 'WPSight_Ninja_Forms', 'ninja_form_activation_redirect' ) );
+
+			// Run deactivation hook
+			register_deactivation_hook( __FILE__, array( 'WPSight_Ninja_Forms', 'deactivation' ) );
+				
+			// Initialize plugin on wpsight_init
+			add_action( 'wpsight_init', array( 'WPSight_Ninja_Forms', 'init' ) );
+		}
+	}
+
+} else {
+	deactivate_plugins( plugin_basename( __FILE__ ) );
+	add_action( 'admin_head', 'hide_activation_notice' );
+	add_action( 'admin_notices', 'required_plugin_notice' );
+}
+
+function hide_activation_notice() {
+	?>
+	<style>
+		#message.updated.notice {
+			display: none;
+		}
+	</style>
+	<?php
+}
+function required_plugin_notice() {
+	?>
+	<div class="error notice is-dismissible"><p><?php echo wp_kses( sprintf( '%s <a href="https://wordpress.org/plugins/ninja-forms/" target="_blank">Ninja form</a>', __( 'WPCasa Ninja Form', 'wpcasa-ninja-forms' ) ), array( 'a' => array( 'href' => array(), 'target' => array() ) ) ); ?></p></div>
+	<?php
 }
