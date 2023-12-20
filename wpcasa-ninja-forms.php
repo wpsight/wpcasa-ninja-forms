@@ -2,10 +2,10 @@
 /*
  * Plugin Name:       WPCasa Ninja Forms
  * Plugin URI:        https://wpcasa.com/downloads/wpcasa-ninja-forms
- * Description:       Add support for Ninja Forms plugin (v2.9) to attach property details to the contact email sent from WPCasa listing pages.
+ * Description:       Add support for Ninja Forms plugin (v3.0.34.1 or higher) to attach property details to the contact email sent from WPCasa listing pages.
  * Version:           2.0.0
  * Requires at least: 4.0
- * Tested up to:      6.4
+ * Tested up to:      6.4.2
  * Author:            WPSight
  * Author URI:        https://wpcasa.com
  * License:           GPL v2 or later
@@ -278,6 +278,10 @@ if( is_plugin_active( 'ninja-forms/ninja-forms.php' ) ) {
 				
 			// Initialize plugin on wpsight_init
 			add_action( 'wpsight_init', array( 'WPSight_Ninja_Forms', 'init' ) );
+		} else {
+			deactivate_plugins( plugin_basename( __FILE__ ) );
+			add_action( 'admin_head', 'hide_activation_notice' );
+			add_action( 'admin_notices', 'required_plugin_notice' );
 		}
 	}
 
@@ -298,6 +302,6 @@ function hide_activation_notice() {
 }
 function required_plugin_notice() {
 	?>
-	<div class="error notice is-dismissible"><p><?php echo wp_kses( sprintf( '%s <a href="https://wordpress.org/plugins/ninja-forms/" target="_blank">Ninja form</a>', __( 'WPCasa Ninja Form', 'wpcasa-ninja-forms' ) ), array( 'a' => array( 'href' => array(), 'target' => array() ) ) ); ?></p></div>
+	<div class="error notice is-dismissible"><p><?php echo wp_kses( sprintf( '%1$s <a href="https://wordpress.org/plugins/ninja-forms/" target="_blank">Ninja form</a> %2$s 3.0.34.1', __( 'WPCasa Ninja Form', 'wpcasa-ninja-forms' ), __( 'greater than ' ) ), array( 'a' => array( 'href' => array(), 'target' => array() ) ) ); ?></p></div>
 	<?php
 }
