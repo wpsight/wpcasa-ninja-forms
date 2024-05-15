@@ -35,7 +35,8 @@ class WPSight_Ninja_Forms_Admin {
 	 */
 	public function ninja_options( $options ) {
 		$icon = 'dashicons dashicons-email';
-		// Prepare forms option
+        $name = __( 'Ninja Forms', 'wpcasa-ninja-forms' );
+		// Prepare form option
 		$forms = array( '' => __( 'None', 'wpcasa-ninja-forms' ) );
 
 		$ninja_forms = Ninja_Forms()->form()->get_forms();
@@ -117,12 +118,16 @@ class WPSight_Ninja_Forms_Admin {
 			'type'		=> 'checkbox'
 		);
 
-		$options['ninja_forms'] = array(
-			__( 'Ninja Forms', 'wpcasa-ninja-forms' ),
-			apply_filters( 'wpsight_options_ninja', $options_ninja )
-		);
+        if ( version_compare( '1.1.0', WPSIGHT_VERSION, '<' ) ) {
+            $name = '<span class="' . $icon . '"></span>' . $name;
+        }
 
-		return $options;
+        $options['ninja_forms'] = array(
+            $name,
+            apply_filters( 'wpsight_options_ninja', $options_ninja )
+        );
+
+        return $options;
 
 	}
 

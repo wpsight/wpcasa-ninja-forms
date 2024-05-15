@@ -310,6 +310,6 @@ function hide_activation_notice() {
 }
 function required_plugin_notice() {
 	?>
-	<div class="error notice is-dismissible"><p><?php echo wp_kses( sprintf( '%1$s <a href="https://wordpress.org/plugins/ninja-forms/" target="_blank">Ninja form</a> %2$s 3.0.34.1', __( 'WPCasa Ninja Form', 'wpcasa-ninja-forms' ), __( 'greater than ' ) ), array( 'a' => array( 'href' => array(), 'target' => array() ) ) ); ?></p></div>
+	<div class="error notice is-dismissible"><p><?php echo wp_kses( sprintf( '%1$s <a href="https://wordpress.org/plugins/ninja-forms/" target="_blank">Ninja Forms</a> %2$s 3.0.34.1', __( 'WPCasa Ninja Forms', 'wpcasa-ninja-forms' ), __( 'greater than ' ) ), array( 'a' => array( 'href' => array(), 'target' => array() ) ) ); ?></p></div>
 	<?php
 }
