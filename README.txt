@@ -1,9 +1,9 @@
 === WPCasa Ninja Forms ===
-Contributors: wpsight, kybernetikservices, mrinal013, joehana
+Contributors: wpsight, kybernetikservices, mrinal013
 Donate link: https://www.paypal.com/donate/?hosted_button_id=SYJNVSP2BKTQ4
 Tags: real estate, realestate, ninja forms, ninjaforms, ninja, forms, contact, agent, listing, property, wpcasa
 Requires at least: 4.0
-Tested up to: 6.4
+Tested up to: 6.5
 Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -73,6 +73,11 @@ Starting with version 2.0 of WPCasa Ninja Forms we have dropped the support for 
 * Initial release
 
 == Upgrade Notice ==
+
+= 2.0.0 =
+* With version 2.0.0 we have dropped support for Ninja Forms below 3.0.34
+* A Further Ninja Form version is not supported anymore.
+* If you need support for Ninja Form below 3.0.34, please do not update this plugin!
 
 = 1.0.1 =
 * Fix error when Ninja Forms core plugin is not active
