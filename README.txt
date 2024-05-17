@@ -12,7 +12,7 @@ Add support for Ninja Forms plugin 3 an above to attach property details to the 
 
 == Description ==
 
-> This bridge add-on does support the new Ninja Forms version 3.0 and above
+> This bridge add-on does support the Ninja Forms below 3.0!
 
 The WPCasa Ninja Forms add-on is a bridge plugin for the Ninja Forms form builder (version 3.0 and above) that can be used to display a contact form on single listing pages in WPCasa. The add-on makes sure that useful property information is attaced to the emails sent through the form. It also comes with a starter form that includes all the necessary fields to make your life easier.
 
