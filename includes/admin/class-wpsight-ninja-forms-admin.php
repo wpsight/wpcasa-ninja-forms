@@ -33,7 +33,7 @@ class WPSight_Ninja_Forms_Admin {
 	 *
 	 *	@since 1.0.0
 	 */
-	public function ninja_options( $options ) {
+	public function ninja_options( $options ): array {
 		$icon = 'dashicons dashicons-email';
         $name = __( 'Ninja Forms', 'wpcasa-ninja-forms' );
 		// Prepare form option
@@ -49,7 +49,7 @@ class WPSight_Ninja_Forms_Admin {
 		$options_ninja = array(
 
 			'ninja_listing_form_pageheading' => array(
-                'name'		=> __( 'Ninja Form', 'wpcasa-ninja-forms' ),
+                'name'		=> $name,
                 'desc'		=> '',
                 'link'		=> 'https://docs.wpcasa.com/article/wpcasa-ninja-forms/',
                 'icon'		=> $icon,

@@ -288,18 +288,18 @@ if( is_plugin_active( 'ninja-forms/ninja-forms.php' ) ) {
 			add_action( 'wpsight_init', array( 'WPSight_Ninja_Forms', 'init' ) );
 		} else {
 			deactivate_plugins( plugin_basename( __FILE__ ) );
-			add_action( 'admin_head', 'hide_activation_notice' );
-			add_action( 'admin_notices', 'required_plugin_notice' );
+			add_action('admin_head', 'wpsight_nf_hide_activation_notice');
+			add_action('admin_notices', 'wpsight_nf_required_plugin_notice');
 		}
 	}
 
 } else {
 	deactivate_plugins( plugin_basename( __FILE__ ) );
-	add_action( 'admin_head', 'hide_activation_notice' );
-	add_action( 'admin_notices', 'required_plugin_notice' );
+	add_action('admin_head', 'wpsight_nf_hide_activation_notice');
+	add_action('admin_notices', 'wpsight_nf_required_plugin_notice');
 }
 
-function hide_activation_notice() {
+function wpsight_nf_hide_activation_notice() {
 	?>
 	<style>
 		#message.updated.notice {
@@ -308,8 +308,8 @@ function hide_activation_notice() {
 	</style>
 	<?php
 }
-function required_plugin_notice() {
+function wpsight_nf_required_plugin_notice() {
 	?>
-	<div class="error notice is-dismissible"><p><?php echo wp_kses( sprintf( '%1$s <a href="https://wordpress.org/plugins/ninja-forms/" target="_blank">Ninja Forms</a> %2$s 3.0.34.1', __( 'WPCasa Ninja Forms', 'wpcasa-ninja-forms' ), __( 'greater than ' ) ), array( 'a' => array( 'href' => array(), 'target' => array() ) ) ); ?></p></div>
+	<div class="error notice is-dismissible"><p><?php echo wp_kses( sprintf( '%1$s <a href="https://wordpress.org/plugins/ninja-forms/" target="_blank">Ninja Forms</a> %2$s 3.0.34.1', __( 'WPCasa Ninja Forms', 'wpcasa-ninja-forms' ), __( 'greater than ', 'wpcasa-ninja-forms' ) ), array( 'a' => array( 'href' => array(), 'target' => array() ) ) ); ?></p></div>
 	<?php
 }
