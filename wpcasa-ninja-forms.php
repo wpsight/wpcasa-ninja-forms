@@ -14,7 +14,6 @@
  * Version:           2.0.0
  * Requires at least: 4.0
  * Requires Plugins:  wpcasa, ninja-forms
- * Tested up to:      6.5
  * Requires PHP:      5.6
  * Author:            WPSight
  * Author URI:        https://wpcasa.com
