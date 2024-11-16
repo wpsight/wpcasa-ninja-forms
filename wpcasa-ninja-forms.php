@@ -1,19 +1,25 @@
 <?php
-/*
-Plugin Name: WPCasa Ninja Forms
-Plugin URI: https://wpcasa.com/downloads/wpcasa-ninja-forms
-Description: Add support for Ninja Forms plugin (v2.9) to attach property details to the contact email sent from WPCasa listing pages.
-Version: 1.1
-Author: WPSight
-Author URI: http://wpsight.com
-Requires at least: 4.0
-Tested up to: 5.3.2
-Text Domain: wpcasa-ninja-forms
-Domain Path: /languages
-
-	Copyright: 2015 Simon Rimkus
-	License: GNU General Public License v2.0 or later
-	License URI: http://www.gnu.org/licenses/gpl-2.0.html
+/**
+ * WPCasa
+ *
+ * @package           WPCasaNinjaForms
+ * @author            WPSight
+ * @copyright         2024 Kybernetik Services GmbH
+ * @license           GPL-2.0-or-later
+ *
+ * @wordpress-plugin
+ * Plugin Name:       WPCasa Ninja Forms
+ * Plugin URI:        https://wpcasa.com/downloads/wpcasa-ninja-forms
+ * Description:       Add support for Ninja Forms plugin (v3.0.34.1 or higher) to attach property details to the contact email sent from WPCasa listing pages.
+ * Version:           2.0.0
+ * Requires at least: 4.0
+ * Requires Plugins:  wpcasa, ninja-forms
+ * Requires PHP:      5.6
+ * Author:            WPSight
+ * Author URI:        https://wpcasa.com
+ * License:           GPL v2 or later
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain:       wpcasa-ninja-forms
 */
 
 // Exit if accessed directly
@@ -24,6 +30,11 @@ if ( ! defined( 'ABSPATH' ) )
  * WPSight_Ninja_Forms class
  */
 class WPSight_Ninja_Forms {
+
+	/**
+	 * Variable to contain WPSight_Ninja_Forms_Admin class
+	 */
+	public $admin;
 
 	/**
 	 * Constructor
@@ -38,9 +49,7 @@ class WPSight_Ninja_Forms {
 		if ( ! defined( 'WPSIGHT_DOMAIN' ) )
 			define( 'WPSIGHT_DOMAIN', 'wpcasa' );
 
-		define( 'WPSIGHT_NINJA_FORMS_NAME', 'WPCasa Ninja Forms' );
-		define( 'WPSIGHT_NINJA_FORMS_DOMAIN', 'wpcasa-ninja-forms' );
-		define( 'WPSIGHT_NINJA_FORMS_VERSION', '1.1' );
+		define( 'WPSIGHT_NINJA_FORMS_VERSION', '2.0.0' );
 		define( 'WPSIGHT_NINJA_FORMS_PLUGIN_DIR', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 		define( 'WPSIGHT_NINJA_FORMS_PLUGIN_URL', untrailingslashit( plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) ) );
 
@@ -72,9 +81,9 @@ class WPSight_Ninja_Forms {
 	 *	@since 1.0.0
 	 */
 	public static function init( $wpsight ) {
-		if ( ! isset( $wpsight->ninja_forms ) ) {
+		if ( ! isset( $wpsight->ninja_forms ) ) 
 			$wpsight->ninja_forms = new self();
-		}
+
 		do_action_ref_array( 'wpsight_init_ninja_forms', array( &$wpsight ) );
 
 		return $wpsight->ninja_forms;
@@ -111,7 +120,7 @@ class WPSight_Ninja_Forms {
 		$suffix = SCRIPT_DEBUG ? '' : '.min';
 		
 		if( is_singular( wpsight_post_type() ) && wpsight_get_option( 'ninja_listing_form_css' ) )
-			wp_enqueue_style( 'wpsight-ninja-forms', WPSIGHT_NINJA_FORMS_PLUGIN_URL . '/assets/css/wpsight-ninja-forms' . $suffix . '.css' );
+			wp_enqueue_style( 'wpsight-ninja-forms', WPSIGHT_NINJA_FORMS_PLUGIN_URL . '/assets/css/wpsight-ninja-forms' . $suffix . '.css', '', WPSIGHT_NINJA_FORMS_VERSION );
 
 	}
 	
@@ -149,7 +158,7 @@ class WPSight_Ninja_Forms {
 	public function listing_form() {
 		
 		if( wpsight_get_option( 'ninja_listing_form_id' ) )
-			ninja_forms_display_form( absint( wpsight_get_option( 'ninja_listing_form_id' ) ) );
+			echo do_shortcode( '[ninja_form id=' . absint( wpsight_get_option( 'ninja_listing_form_id' ) ) . ']' );
 		
 	}
 	
@@ -203,15 +212,15 @@ class WPSight_Ninja_Forms {
 		$file = file_get_contents( untrailingslashit( plugin_dir_path( __FILE__ ) ) . '/wpcasa-ninja-forms-starter.nff' );
 		
 		// create new form
-		$form_id = ! wpsight_get_option( 'ninja_listing_form_id' ) && function_exists( 'ninja_forms_import_form' ) ? ninja_forms_import_form( $file ) : false;
+		$form_id = ! wpsight_get_option( 'ninja_listing_form_id' ) ? Ninja_Forms()->form()->import_form( $file ) : false;
 		
 		$form_field_id = false;
 		
 		if( $form_id ) {
 			
-			foreach( Ninja_Forms()->form( absint( $form_id ) )->fields as $key => $field ) {				
-				if( '_hidden' == $field['type'] && $field['data']['label'] == '_listing_agent' )
-					$form_field_id = $field['id'];
+			foreach( Ninja_Forms()->form( absint( $form_id ) )->get_fields() as $key => $field ) {				
+				if( '_hidden' == $field->get_type() && $field->get_label() == '_listing_agent' )
+					$form_field_id = $field->get_id();
 			}
 			
 		}
@@ -235,6 +244,18 @@ class WPSight_Ninja_Forms {
 		}
 
 	}
+
+	public static function ninja_form_activation_redirect( $plugin ) {
+		if ( plugin_basename( __FILE__ ) == $plugin ) {
+			$_form_id	= wpsight_get_option( 'ninja_listing_form_id' );
+			$url = 'admin.php?page=ninja-forms&form_id=' . $_form_id;
+			exit( esc_url( wp_redirect( $url ) ) );
+		}
+	}
+
+	public static function deactivation() {
+		wpsight_delete_option( 'ninja_listing_form_id' );
+	}
 	
 }
 
@@ -246,12 +267,48 @@ class WPSight_Ninja_Forms {
  */
 include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
-if( is_plugin_active( 'ninja-forms/ninja-forms.php' ) && version_compare( get_option( 'ninja_forms_version' ), '3.0', '<' ) ) {
+if( is_plugin_active( 'ninja-forms/ninja-forms.php' ) ) {
 
-	// Run activation hook
-	register_activation_hook( __FILE__, array( 'WPSight_Ninja_Forms', 'activation' ) );
-		
-	// Initialize plugin on wpsight_init
-	add_action( 'wpsight_init', array( 'WPSight_Ninja_Forms', 'init' ) );
+	$ninja_form_plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/ninja-forms/ninja-forms.php' );
+	if ( isset( $ninja_form_plugin_data ) ) {
+		$ninja_form_version = $ninja_form_plugin_data['Version'];
 
+		if ( $ninja_form_version >= '3.0.34.1' ) {
+
+			// Run activation hook
+			register_activation_hook( __FILE__, array( 'WPSight_Ninja_Forms', 'activation' ) );
+
+			add_action( 'activated_plugin', array( 'WPSight_Ninja_Forms', 'ninja_form_activation_redirect' ) );
+
+			// Run deactivation hook
+			register_deactivation_hook( __FILE__, array( 'WPSight_Ninja_Forms', 'deactivation' ) );
+				
+			// Initialize plugin on wpsight_init
+			add_action( 'wpsight_init', array( 'WPSight_Ninja_Forms', 'init' ) );
+		} else {
+			deactivate_plugins( plugin_basename( __FILE__ ) );
+			add_action('admin_head', 'wpsight_nf_hide_activation_notice');
+			add_action('admin_notices', 'wpsight_nf_required_plugin_notice');
+		}
+	}
+
+} else {
+	deactivate_plugins( plugin_basename( __FILE__ ) );
+	add_action('admin_head', 'wpsight_nf_hide_activation_notice');
+	add_action('admin_notices', 'wpsight_nf_required_plugin_notice');
+}
+
+function wpsight_nf_hide_activation_notice() {
+	?>
+	<style>
+		#message.updated.notice {
+			display: none;
+		}
+	</style>
+	<?php
+}
+function wpsight_nf_required_plugin_notice() {
+	?>
+	<div class="error notice is-dismissible"><p><?php echo wp_kses( sprintf( '%1$s <a href="https://wordpress.org/plugins/ninja-forms/" target="_blank">Ninja Forms</a> %2$s 3.0.34.1', __( 'WPCasa Ninja Forms', 'wpcasa-ninja-forms' ), __( 'greater than ', 'wpcasa-ninja-forms' ) ), array( 'a' => array( 'href' => array(), 'target' => array() ) ) ); ?></p></div>
+	<?php
 }

@@ -33,17 +33,30 @@ class WPSight_Ninja_Forms_Admin {
 	 *
 	 *	@since 1.0.0
 	 */
-	public function ninja_options( $options ) {
-
-		// Prepare forms option
+	public function ninja_options( $options ): array {
+		$icon = 'dashicons dashicons-email';
+        $name = __( 'Ninja Forms', 'wpcasa-ninja-forms' );
+		// Prepare form option
 		$forms = array( '' => __( 'None', 'wpcasa-ninja-forms' ) );
 
-		foreach ( ninja_forms_get_all_forms() as $key => $form ) {
-			$id = $form['id'];
-			$forms[ $id ] = $form['name'];
+		$ninja_forms = Ninja_Forms()->form()->get_forms();
+
+		foreach ( $ninja_forms as $key => $form ) {
+			$id = $form->get_id();
+			$forms[ $id ] = $form->get_settings( 'title' );
 		}
 
 		$options_ninja = array(
+
+			'ninja_listing_form_pageheading' => array(
+                'name'		=> $name,
+                'desc'		=> '',
+                'link'		=> 'https://docs.wpcasa.com/article/wpcasa-ninja-forms/',
+                'icon'		=> $icon,
+                'id'		=> 'ninja_listing_form_pageheading',
+                'type'		=> 'pageheading',
+                'position'	=> 10
+            ),
 
 			'ninja_listing_form_id' => array(
 				'name'		=> __( 'Listing Form', 'wpcasa-ninja-forms' ),
@@ -62,10 +75,10 @@ class WPSight_Ninja_Forms_Admin {
 			
 			$form_fields = array( '' => __( 'None', 'wpcasa-ninja-forms' ) );
 			
-			foreach( Ninja_Forms()->form( absint( $form_id ) )->fields as $key => $field ) {				
-				$form_field_id = $field['id'];
+			foreach( Ninja_Forms()->form( absint( $form_id ) )->get_fields() as $key => $field ) {				
+				$form_field_id = $field->get_id();
 				
-				if( '_hidden' == $field['type'] )
+				if( '_hidden' == $field->get_type() )
 					$form_fields[ $form_field_id ] = $field['data']['label'];
 			}
 			
@@ -105,12 +118,16 @@ class WPSight_Ninja_Forms_Admin {
 			'type'		=> 'checkbox'
 		);
 
-		$options['ninja_forms'] = array(
-			__( 'Ninja Forms', 'wpcasa-ninja-forms' ),
-			apply_filters( 'wpsight_options_ninja', $options_ninja )
-		);
+        if ( version_compare( '1.1.0', WPSIGHT_VERSION, '<' ) ) {
+            $name = '<span class="' . $icon . '"></span>' . $name;
+        }
 
-		return $options;
+        $options['ninja_forms'] = array(
+            $name,
+            apply_filters( 'wpsight_options_ninja', $options_ninja )
+        );
+
+        return $options;
 
 	}
 
