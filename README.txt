@@ -58,6 +58,8 @@ Starting with version 2.0 of WPCasa Ninja Forms we have dropped the support for 
 4. Ninja Forms form editor
 
 == Changelog ==
+= 2.0.1 =
+* fixed Ninja Form issue where required astrix does appear with escaped html tags
 
 = 2.0.0 =
 * fixed guideline violations

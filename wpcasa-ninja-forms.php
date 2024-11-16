@@ -11,7 +11,7 @@
  * Plugin Name:       WPCasa Ninja Forms
  * Plugin URI:        https://wpcasa.com/downloads/wpcasa-ninja-forms
  * Description:       Add support for Ninja Forms plugin (v3.0.34.1 or higher) to attach property details to the contact email sent from WPCasa listing pages.
- * Version:           2.0.0
+ * Version:           2.0.1
  * Requires at least: 4.0
  * Requires Plugins:  wpcasa, ninja-forms
  * Requires PHP:      5.6
@@ -67,6 +67,9 @@ class WPSight_Ninja_Forms {
 		// Remove Actions
 		remove_action('init', 'ninja_forms_register_display_req_items');
 
+        // Fix Ninja Form issue with required fields asterix
+		add_filter( 'ninja_forms_display_form_settings', array( $this, 'decode_ninja_forms_display_form_settings' ), 10, 2);
+
 	}
 
 	/**
@@ -103,7 +106,14 @@ class WPSight_Ninja_Forms {
 	public function load_plugin_textdomain() {
 		load_plugin_textdomain( 'wpcasa-ninja-forms', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 	}
-	
+
+	public function decode_ninja_forms_display_form_settings( $settings, $form_id ) {
+
+		$settings[ 'fieldsMarkedRequired' ] = html_entity_decode( $settings[ 'fieldsMarkedRequired' ] );
+
+		return $settings;
+	}
+
 	/**
 	 *	frontend_scripts()
 	 *	
