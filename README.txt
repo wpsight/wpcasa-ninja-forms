@@ -60,6 +60,7 @@ Starting with version 2.0 of WPCasa Ninja Forms we have dropped the support for 
 == Changelog ==
 = 2.0.1 =
 * fixed Ninja Form issue where required astrix does appear with escaped html tags
+* added support for translation on [WordPress GlotPress](https://translate.wordpress.org/projects/wp-plugins/wpcasa-ninja-forms/)
 
 = 2.0.0 =
 * fixed guideline violations

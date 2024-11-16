@@ -59,7 +59,6 @@ class WPSight_Ninja_Forms {
 		}
 
 		// Actions		
-		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );
 		add_action( 'template_redirect', array( $this, 'listing_form_display' ) );
 		add_action( 'ninja_forms_display_pre_init', array( $this, 'listing_form_agent' ) );
@@ -90,21 +89,6 @@ class WPSight_Ninja_Forms {
 		do_action_ref_array( 'wpsight_init_ninja_forms', array( &$wpsight ) );
 
 		return $wpsight->ninja_forms;
-	}
-
-	/**
-	 *	load_plugin_textdomain()
-	 *	
-	 *	Set up localization for this plugin
-	 *	loading the text domain.
-	 *	
-	 *	@uses	load_plugin_textdomain()
-	 *	
-	 *	@since 1.0.0
-	 */
-
-	public function load_plugin_textdomain() {
-		load_plugin_textdomain( 'wpcasa-ninja-forms', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 	}
 
 	public function decode_ninja_forms_display_form_settings( $settings, $form_id ) {
