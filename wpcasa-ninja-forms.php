@@ -49,7 +49,7 @@ class WPSight_Ninja_Forms {
 		if ( ! defined( 'WPSIGHT_DOMAIN' ) )
 			define( 'WPSIGHT_DOMAIN', 'wpcasa' );
 
-		define( 'WPSIGHT_NINJA_FORMS_VERSION', '2.0.0' );
+		define( 'WPSIGHT_NINJA_FORMS_VERSION', '2.0.1' );
 		define( 'WPSIGHT_NINJA_FORMS_PLUGIN_DIR', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 		define( 'WPSIGHT_NINJA_FORMS_PLUGIN_URL', untrailingslashit( plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) ) );
 
@@ -61,13 +61,13 @@ class WPSight_Ninja_Forms {
 		// Actions		
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );
 		add_action( 'template_redirect', array( $this, 'listing_form_display' ) );
-		add_action( 'ninja_forms_display_pre_init', array( $this, 'listing_form_agent' ) );
-		
+
 		// Remove Actions
 		remove_action('init', 'ninja_forms_register_display_req_items');
 
-        // Fix Ninja Form issue with required fields asterix
+        // Filters
 		add_filter( 'ninja_forms_display_form_settings', array( $this, 'decode_ninja_forms_display_form_settings' ), 10, 2);
+        add_filter( 'ninja_forms_display_fields', array( $this, 'listing_form_agent'), 10, 2 );
 
 	}
 
@@ -91,6 +91,18 @@ class WPSight_Ninja_Forms {
 		return $wpsight->ninja_forms;
 	}
 
+	/**
+     * decode_ninja_forms_display_form_settings()
+     *
+     * Fix Ninja Form issue with required fields asterix
+	 *
+	 * @param $settings
+	 * @param $form_id
+	 *
+	 * @return mixed
+     *
+     * @since 2.0.1
+	 */
 	public function decode_ninja_forms_display_form_settings( $settings, $form_id ) {
 
 		$settings[ 'fieldsMarkedRequired' ] = html_entity_decode( $settings[ 'fieldsMarkedRequired' ] );
@@ -164,22 +176,34 @@ class WPSight_Ninja_Forms {
 	 *	on the settings page.
 	 *
 	 *	@uses	wpsight_get_option()
-	 *	@uses	$ninja_forms_loading->update_field_value()
 	 *	@uses	get_the_author_meta()
-	 *	@uses	antispambot()
 	 *
 	 *	@since 1.0.0
+     *  @updated 2.0.1
 	 */
-	public function listing_form_agent( $form_id ) {		
-		global $ninja_forms_loading;
-		
+	public function listing_form_agent( $fields, $form_id ) : array {
+
 		$_form_id	= absint( wpsight_get_option( 'ninja_listing_form_id' ) );
 		$_field_id	= absint( wpsight_get_option( 'ninja_listing_field_id' ) );
-		
-		if( $_form_id && $_field_id && $_form_id == $form_id )
-			$ninja_forms_loading->update_field_value( $_field_id, antispambot( get_the_author_meta( 'email' ) ) );
-		
+
+		if( !$_form_id || !$_field_id || $_form_id != $form_id ) {
+			return $fields;
+		}
+
+		foreach( $fields as $key => $field ) {
+
+			if( $_field_id == $field[ 'id' ] ) {
+
+				$fields[ $key ][ 'value' ] = get_the_author_meta( 'email' );
+
+			}
+
+		}
+
+		return $fields;
+
 	}
+
 
 	/**
 	 *	activation()
