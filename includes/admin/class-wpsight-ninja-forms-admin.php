@@ -74,14 +74,17 @@ class WPSight_Ninja_Forms_Admin {
 		if( $form_id ) {
 			
 			$form_fields = array( '' => __( 'None', 'wpcasa-ninja-forms' ) );
-			
-			foreach( Ninja_Forms()->form( absint( $form_id ) )->get_fields() as $key => $field ) {				
+
+			foreach( Ninja_Forms()->form( absint( $form_id ) )->get_fields() as $key => $field ) {
 				$form_field_id = $field->get_id();
-				
-				if( '_hidden' == $field->get_type() )
-					$form_fields[ $form_field_id ] = $field['data']['label'];
+
+				if( 'hidden' == $field->get_setting( 'type' ) ) {
+
+					$form_fields[ $form_field_id ] = $field->get_setting( 'label' );
+
+				}
 			}
-			
+
 			$options_ninja['ninja_listing_field_id'] = array(
 				'name'		=> __( 'Agent Email', 'wpcasa-ninja-forms' ),
 				'desc'		=> __( 'Select the hidden form field that contains the agent email.', 'wpcasa-ninja-forms' ),

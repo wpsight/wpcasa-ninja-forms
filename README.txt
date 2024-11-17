@@ -58,6 +58,10 @@ Starting with version 2.0 of WPCasa Ninja Forms we have dropped the support for 
 4. Ninja Forms form editor
 
 == Changelog ==
+= 2.0.1 =
+* fixed Ninja Form issue where required astrix does appear with escaped html tags
+* fixed that the hidden field could not be pre-filled with the real estate agent's email (thank you to Jimmi08)
+* added support for translation on [WordPress GlotPress](https://translate.wordpress.org/projects/wp-plugins/wpcasa-ninja-forms/)
 
 = 2.0.0 =
 * fixed guideline violations
