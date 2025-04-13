@@ -3,7 +3,7 @@ Contributors: wpsight, kybernetikservices, mrinal013
 Donate link: https://www.paypal.com/donate/?hosted_button_id=SYJNVSP2BKTQ4
 Tags: real estate, realestate, ninja forms, ninjaforms, ninja, forms, contact, agent, listing, property, wpcasa
 Requires at least: 4.0
-Tested up to: 6.7
+Tested up to: 6.8
 Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
